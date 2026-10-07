@@ -1,4 +1,5 @@
 let keranjang = JSON.parse(localStorage.getItem("keranjangKasir")) || [];
+let edit = -1;
 
 function tampil() {
     let kotakHTML = document.getElementById("barang");
@@ -12,9 +13,16 @@ function tampil() {
         let li = document.createElement("li");
         li.textContent = keranjang[i].nama + " - Rp " + keranjang[i].harga + " ";
 
+        let tomboledit = document.createElement("button");
+        tomboledit.textContent = "edit";
+        tomboledit.addEventListener("click", () => editbarang(i));
+
         let tombolHapus = document.createElement("button");
         tombolHapus.textContent = "Hapus";
         tombolHapus.addEventListener("click", () => hapusBarang(i));
+
+        li.appendChild(tomboledit);
+        kotakHTML.appendChild(li);
 
         li.appendChild(tombolHapus);
         kotakHTML.appendChild(li);
@@ -26,16 +34,35 @@ function tambah() {
     let inputB = document.getElementById("nama-barang").value;
     let inputH = Number(document.getElementById("harga-barang").value);
 
-    if (inputB !== "" && inputH !== 0) {
-        keranjang.push({ nama: inputB, harga: inputH });
-        localStorage.setItem("keranjangKasir", JSON.stringify(keranjang));
-        tampil();
-
-        document.getElementById("nama-barang").value = "";
-        document.getElementById("harga-barang").value = "";
-    } else {
+    if (inputB === "" && inputH === 0) {
         alert("Masukkan nama barang dan harga yang benar!");
     }
+
+    if (edit === -1) {
+        keranjang.push({ nama: inputB, harga: inputH });
+        localStorage.setItem("keranjangKasir", JSON.stringify(keranjang));
+    } else {
+        keranjang[edit].nama = inputB;
+        keranjang[edit].harga = inputH;
+
+        edit = -1;
+    }
+    document.getElementById("nama-barang").value = "";
+    document.getElementById("harga-barang").value = "";
+    tampil();
+}
+
+function hapussemua() {
+    keranjang = [];
+    localStorage.setItem("keranjangKasir", JSON.stringify(keranjang));
+
+    tampil();
+}
+
+function editbarang(i) {
+    document.getElementById("nama-barang").value = keranjang[i].nama;
+    document.getElementById("harga-barang").value = keranjang[i].harga;
+    edit = i;
 }
 
 function hapusBarang(i) {
@@ -76,6 +103,10 @@ function resetkembalian() {
 
 let tombolTambah = document.getElementById("Btambah");
 document.getElementById("Btambah").addEventListener("click", tambah);
+tampil();
+
+let tombolhapussemua = document.getElementById("BhapusSemua");
+tombolhapussemua.addEventListener("click", hapussemua);
 tampil();
 
 let tombolbayar = document.getElementById("pembayaran");
