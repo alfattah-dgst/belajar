@@ -30,6 +30,27 @@ function tampil() {
     totalHTML.textContent = "total barang: " + total;
 }
 
+async function muatProdukDemo() {
+    tampilkanSkeleton();
+
+    try {
+        let respon = await fetch("produk.json");
+        let data = await respon.json();
+
+        data.forEach(item => {
+            keranjang.push({
+                nama: item.nama,
+                harga: item.harga
+            });
+        });
+
+        tampil();
+    } catch (error) {
+        console.log("Detail error:", error);
+        alert(" Gagal mengambil data produk dari server. Pastikan koneksi internet Anda terhubung!");
+    }
+}
+
 function tambah() {
     let inputB = document.getElementById("nama-barang").value;
     let inputH = Number(document.getElementById("harga-barang").value);
@@ -91,6 +112,11 @@ function bayar() {
         uangmasuk.textContent = "uang masuk: Rp " + bayar
         pesankembalian.textContent = "Kembalian: Rp " + kembalian;
 
+        let sekarang = new Date();
+        let waktu = sekarang.toLocaleString("id-ID");
+        document.getElementById("waktu").textContent = "waktu transaksi: " + waktu;
+
+
         document.getElementById("input-bayar").value = "";
     }
 
@@ -99,6 +125,7 @@ function bayar() {
 function resetkembalian() {
     document.getElementById("uang masuk").textContent = "";
     document.getElementById("kembalian").textContent = "";
+    document.getElementById("waktu").textContent = "";
 }
 
 let tombolTambah = document.getElementById("Btambah");
@@ -116,3 +143,5 @@ tampil();
 let tombolreset = document.getElementById("reset");
 tombolreset.addEventListener("click", resetkembalian);
 tampil()
+
+muatProdukDemo();

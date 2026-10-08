@@ -3,25 +3,45 @@
     box-sizing: border-box;
 }
 
+:root {
+    --warna-primer: #ffffff;
+    --warna-sekunder: black;
+    --warna-bayangan: rgba(0, 0, 0, 0.5);
+}
+
 body {
-    background-color: #eee;
+    background-color: var(--warna-primer);
+    color: var(--warna-sekunder);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .card {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: white;
+    background-color: var(--warna-primer);
     border-radius: 5px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 4px 8px var(--warna-bayangan);
     padding: 5px 100px 10px 100px;
 }
 
-input {
+body.dark-mode {
+    --warna-primer: #121212;
+    --warna-sekunder: #f1f1f1;
+    --warna-bayangan: rgba(253, 251, 251, 0.5);
+}
+
+input.dark-mode {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.card input {
     margin: 10px 0px 0px 0px;
     padding: 5px;
     width: 20em;
@@ -37,6 +57,7 @@ input:focus {
 
 button {
     margin: 2px 0px 0px 0px;
+    color: var(--warna-primer);
 }
 
 li {
@@ -44,8 +65,7 @@ li {
 }
 
 button {
-    background-color: black;
-    color: white;
+    background-color: var(--warna-sekunder);
 }
 
 .btn-tambah {
@@ -57,8 +77,8 @@ button {
 
 .btn-tambah:hover {
     transform: translateY(-2px);
-    background-color: white;
-    color: black;
+    background-color: var(--warna-primer);
+    color: var(--warna-sekunder);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -80,7 +100,30 @@ button {
 
 .btn-bayar:hover {
     transform: scaleX(10px);
-    background-color: white;
-    color: black;
+    background-color: var(--warna-primer);
+    color: var(--warna-sekunder);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes kedip {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.skeleton {
+    background-color: #e0e0e0;
+    height: 20px;
+    border-radius: 4px;
+    animation: kedip 1.2s infinite;
+}
+
+.skeleton-item {
+    list-style-type: none;
 }
