@@ -5,9 +5,26 @@ body {
 }
 
 .card {
-    display: grid;
-    min-width: 10em;
+    min-width: 11rem;
     min-height: 14em;
     border: 1px solid gray;
-    grid-template-columns: repeat(4, 1fr);
+}
+
+.kal {
+    grid-column: 1 / -1;
+}
+
+button {
+    padding: 16px;
+}
+
+.tombol {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#layar {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
 }
